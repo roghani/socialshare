@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="MidTheme" parent="android:Theme.Light.NoTitleBar">
+        <item name="android:editTextStyle">@style/EditTextMidTheme</item>
+        <item name="android:checkboxStyle">@style/CheckBoxMidTheme</item>
+        <item name="android:radioButtonStyle">@style/RadioButtonMidTheme</item>
+        <item name="android:buttonStyle">@style/ButtonMidTheme</item>
+        <item name="android:imageButtonStyle">@style/ImageButtonMidTheme</item>
+        <item name="android:spinnerStyle">@style/SpinnerMidTheme</item>
+        <item name="android:dropDownSpinnerStyle">@style/SpinnerMidTheme.DropDown</item>
+        <item name="android:spinnerDropDownItemStyle">@style/SpinnerItemMidTheme</item>
+        <item name="android:progressBarStyleHorizontal">@style/ProgressBarMidTheme</item>
+        <item name="android:seekBarStyle">@style/SeekBarMidTheme</item>
+        <item name="android:buttonStyleToggle">@style/ToggleMidTheme</item>
+        <item name="android:listViewStyle">@style/ListViewMidTheme</item>
+        <item name="android:listViewWhiteStyle">@style/ListViewMidTheme.White</item>
+    </style>
+
+</resources>
