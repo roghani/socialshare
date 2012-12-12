@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Social Share</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="dummy_button">Dummy Button</string>
+    <string name="app_name">Market Analyzer</string>
+    <string name="sContentDescription">Content Description</string>
+    <string name="sAboutApp"><b>Market Analyzer</b> : A simple application to analyze all stock market changes.
+\n\nIt is a great tool to monitor the day-to-day changes happening in the Stock Market.
+\n\nYou can evaluate the changes of your favorite stocks by adding them into <b>My Stocks</b> category.
+\n\nEach stocks will have the informative sections like <b>Quotes, Stock Info, Quant, News</b> and a <b>Historical Graph</b>.
+\n\nThe Historical Graph Section includes different graphs like 1 Day, 5 Day, 1 Month, 2 Month, 3 Month, 6 Month and 1 Year graphs.
+\n\nBy using Market Analyzer you can browse through almost all major stock exchanges.
+\n\nMarket Analyzer will provide informations about <b>Index, Equity, Fund, Currency, ETF, Futures</b> and much more.
+\n\nThe <b>News</b> Section will provide the major headlines of the finance world.</string>
+    <string name="sGraphOptions">Graph Options</string>
+    <string name="sAbout">About</string>
 
 </resources>
