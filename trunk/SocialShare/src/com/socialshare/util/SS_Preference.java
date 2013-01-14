@@ -21,6 +21,9 @@ public class SS_Preference {
 	public static final String 			KEY_AUTH_TT			= "isAuthenticatedTT";
 	public static final String 			KEY_AUTH_GP			= "isAuthenticatedGP";
 	
+	public static final String 			KEY_MAIN_FEED		= "keyMainFeed";
+	public static final String 			KEY_GUIDE_DISPLAYED = "isGuideDisplayed";
+	
 	/** 
 	 * This method must be called before using any other functions of {@link SS_Preference} 
 	 * @param context : Pass the calling context or Base Context or Application Context
@@ -33,34 +36,37 @@ public class SS_Preference {
 	/**
 	 * Use this method to GET a value for the supplied key
 	 */
-	public static String getPreference(String key) throws Exception {
+	public static String getPreference(String key) {
 		if (prefContext == null) {
-			throw new Exception("context not initialised yet");
+			return "";
+		} else {
+			return prefSetting.getString(key, "");				
 		}
-		return prefSetting.getString(key, "");
 	}
 
 	/**
 	 * Use this method to SET a value for the supplied key
 	 */
-	public static void setPreference(String key, String value) throws Exception {	
+	public static void setPreference(String key, String value) {	
 		if (prefContext == null) {
-			throw new Exception("context not initialised yet");
+			
+		} else {
+			Editor editor = prefSetting.edit();
+			editor.putString(key, value);
+			editor.commit();
 		}
-		Editor editor = prefSetting.edit();
-		editor.putString(key, value);
-		editor.commit();
 	}
 	
 	/**
 	 * Use this method to clear all preference data
 	 */
-	public static void clearPreference() throws Exception {
+	public static void clearPreference() {
 		if (prefContext == null) {
-			throw new Exception("context not initialised yet");
+			
+		} else {
+			Editor editor = prefSetting.edit();
+			editor.clear();
+			editor.commit();
 		}
-		Editor editor = prefSetting.edit();
-		editor.clear();
-		editor.commit();
 	}
 }

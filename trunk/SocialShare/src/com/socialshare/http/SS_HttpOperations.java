@@ -57,6 +57,22 @@ public class SS_HttpOperations {
 		}
 		return null;
 	}
+	
+	public JSONObject getNewsData(String newsFeedURL, int pageNumber) throws Exception {
+		API_PATH = SS_Constants.API_YQL_BASE;
+		String yql = "select * from rss where url=\"" + newsFeedURL + "\"" 
+				+ " limit "+ SS_Constants.SIZE_RESULT 
+				+ " offset " + ((pageNumber * SS_Constants.SIZE_RESULT) + 1);
+		String env = "store://datatables.org/alltableswithkeys";
+		LinkedHashMap<String, String> parameters = new LinkedHashMap<String, String>();
+		
+		parameters.put("q", yql);
+		parameters.put("format", "json");
+		parameters.put("env", env);
+		
+		String response = SS_Util.read(prepareConnection(parameters));
+		return SS_Util.parseJson(response);
+	}
 
 	//TODO: Sample Request Method
 	public JSONObject getJSONFromURL(String keyword) throws Exception {
