@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ***************************************************************************************** -->
+    <!-- ********** Spinner Entry Strings (Labels) *********************************************** -->
+    <!-- ***************************************************************************************** -->
+    <string-array name="sListMainFeeds">
+        <item>Top Stories</item>
+        <item>Most Recent Stories</item>
+        <item>India</item>
+        <item>World</item>
+        <item>NRI</item>
+        <item>Business</item>
+        <item>Cricket</item>
+        <item>Sports</item>
+        <item>Health</item>
+        <item>Science</item>
+        <item>Environment</item>
+        <item>Tech</item>
+        <item>Education</item>
+        <item>Sunday TOI</item>
+        <item>Opinion</item>
+        <item>Entertainment</item>
+        <item>Life &amp; Style</item>
+        <item>Most Read</item>
+        <item>Most Shared</item>
+        <item>Most Commented</item>
+    </string-array>
+    <string-array name="sListCities">
+        <item>Mumbai</item>
+        <item>Delhi</item>
+        <item>Bangalore</item>
+        <item>Hyderabad</item>
+        <item>Chennai</item>
+        <item>Ahemdabad</item>
+        <item>Allahabad</item>
+        <item>Bhubaneswar</item>
+        <item>Coimbatore</item>
+        <item>Gurgaon</item>
+        <item>Guwahati</item>
+        <item>Hubli</item>
+        <item>Kanpur</item>
+        <item>Kolkata</item>
+        <item>Ludhiana</item>
+        <item>Mangalore</item>
+        <item>Mysore</item>
+        <item>Noida</item>
+        <item>Pune</item>
+        <item>Goa</item>
+        <item>Chandigarh</item>
+        <item>Lucknow</item>
+        <item>Patna</item>
+        <item>Jaipur</item>
+        <item>Nagpur</item>
+        <item>Rajkot</item>
+        <item>Ranchi</item>
+        <item>Surat</item>
+        <item>Vadodara</item>
+        <item>Varanasi</item>
+        <item>Thane</item>
+        <item>Thiruvananthapuram</item>
+    </string-array>
+    <!-- ***************************************************************************************** -->
+    <!-- ********** Spinner Entry Strings (Parameter Keys) *************************************** -->
+    <!-- ***************************************************************************************** -->
+    <string-array name="sListMainFeedsURL">
+        <item>http://timesofindia.indiatimes.com/rssfeedstopstories.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/1221656.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/-2128936835.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/296589292.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/7098551.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/1898055.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/4719161.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/4719148.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/3908999.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/-2128672765.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/2647163.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/5880659.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/913168846.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/1945062111.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/784865811.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/1081479906.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/2886704.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeedmostread.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeedmostemailed.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeedmostcommented.cms</item>
+    </string-array>
+    <string-array name="sListCitiesURL">
+        <item>http://timesofindia.indiatimes.com/rssfeeds/-2128838597.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/-2128839596.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/-2128833038.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/-2128816011.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/2950623.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/-2128821153.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/3947060.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/4118235.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/7503091.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/6547154.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/4118215.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/3942695.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/3947067.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/-2128830821.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/3947051.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/3942690.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/3942693.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/8021716.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/-2128821991.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/3012535.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/-2128816762.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/-2128819658.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/-2128817995.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/3012544.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/442002.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/3942663.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/4118245.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/3942660.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/3942666.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/3947071.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/3831863.cms</item>
+        <item>http://timesofindia.indiatimes.com/rssfeeds/878156304.cms</item>
+    </string-array>
+
+</resources>

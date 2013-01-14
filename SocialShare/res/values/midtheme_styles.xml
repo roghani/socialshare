@@ -29,10 +29,6 @@
         <item name="android:background">@drawable/spinner_background_holo_light</item>
     </style>
 
-    <style name="SpinnerMidTheme.DropDown">
-        <item name="android:spinnerMode">dropdown</item>
-    </style>
-
     <style name="SpinnerItemMidTheme" parent="android:Widget.DropDownItem.Spinner">
         <item name="android:checkMark">@drawable/btn_radio_holo_light</item>
     </style>

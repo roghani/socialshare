@@ -9,7 +9,6 @@
         <item name="android:buttonStyle">@style/ButtonMidTheme</item>
         <item name="android:imageButtonStyle">@style/ImageButtonMidTheme</item>
         <item name="android:spinnerStyle">@style/SpinnerMidTheme</item>
-        <item name="android:dropDownSpinnerStyle">@style/SpinnerMidTheme.DropDown</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerItemMidTheme</item>
         <item name="android:progressBarStyleHorizontal">@style/ProgressBarMidTheme</item>
         <item name="android:seekBarStyle">@style/SeekBarMidTheme</item>
