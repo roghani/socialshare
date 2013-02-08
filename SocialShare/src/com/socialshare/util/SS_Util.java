@@ -10,9 +10,18 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.auth.AccessToken;
+import twitter4j.conf.Configuration;
+import twitter4j.conf.ConfigurationBuilder;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+
+import com.socialshare.datatypes.DT_MyPosts;
 
 /**
  * This class holds some commonly used utility functions
@@ -40,7 +49,6 @@ public class SS_Util {
 	}
 	
 	/** Pass a {@link HashMap} of parameters and this method will return them in a URL Encoded {@link String} format **/
-	@SuppressWarnings("deprecation")
 	public static String encodeUrl(HashMap<String , String> parameters) {
 		if (parameters == null) {
 			return "";
@@ -79,5 +87,53 @@ public class SS_Util {
 				alert.show();
 			}
 		});
+	}
+	
+	public static Twitter getTwitterInstance() {
+		if (SS_Preference.getPreference(SS_Preference.KEY_AUTH_TT).equalsIgnoreCase("1")) {
+			String tocken = SS_Preference.getPreference(SS_Preference.KEY_TWITTER_TOCKEN);
+			String secret = SS_Preference.getPreference(SS_Preference.KEY_TWITTER_SECRET);
+			SS_Log.i("Twiter Tocken", " : " + tocken);
+			SS_Log.i("Twiter Secret", " : " + secret);
+			AccessToken t = new AccessToken(tocken, secret);
+			
+			ConfigurationBuilder builder = new ConfigurationBuilder();
+			builder.setOAuthConsumerKey(SS_Constants.TWITTER_CONSUMER_KEY);
+			builder.setOAuthConsumerSecret(SS_Constants.TWITTER_SECRET_KEY);
+			Configuration configuration = builder.build();
+			TwitterFactory factory = new TwitterFactory(configuration);
+	
+			Twitter twitter = factory.getInstance(t);
+			return twitter;
+		} else {
+			return null;
+		}
+	}
+	
+	public static void updateTwitterStatus(final String thought, final String link) {
+		Thread t = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					Status status = getTwitterInstance().updateStatus(thought + " " + link);
+					DT_MyPosts myPosts = new DT_MyPosts();
+					myPosts.content = thought;
+					myPosts.link = link;
+					myPosts.twiter = String.valueOf(status.getId());
+					new SS_DBHelper(SS_Constants.CurrentActiveContext).addPost(myPosts);
+				} catch (TwitterException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		t.start();
+	}
+	
+	public static void updateFacebookStatus(String thought, String link) {
+			// TODO FB Update
+	}
+	
+	public static void updateGoogleStatus(String thought, String link) {
+			// TODO G+ Update
 	}
 }

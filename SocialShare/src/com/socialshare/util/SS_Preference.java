@@ -24,6 +24,12 @@ public class SS_Preference {
 	public static final String 			KEY_MAIN_FEED		= "keyMainFeed";
 	public static final String 			KEY_GUIDE_DISPLAYED = "isGuideDisplayed";
 	
+	public static final String 			KEY_TWITTER_ID		= "keyTwitterID";
+	public static final String 			KEY_TWITTER_NAME	= "keyTwitterName";
+	public static final String 			KEY_TWITTER_IMAGEURL= "keyTwitterImageURL";
+	public static final String 			KEY_TWITTER_TOCKEN	= "keyTwitterTocken";
+	public static final String 			KEY_TWITTER_SECRET	= "keyTwitterSecret";
+	
 	/** 
 	 * This method must be called before using any other functions of {@link SS_Preference} 
 	 * @param context : Pass the calling context or Base Context or Application Context

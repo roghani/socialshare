@@ -62,6 +62,17 @@ public class LoginActivity extends Activity {
 			String imageUrl  = intent.getStringExtra("imageurl");
 			String token = intent.getStringExtra("twitterAccessToken");
 			String secret = intent.getStringExtra("twitterAccessTokenSecret");
+			
+			SS_Preference.setPreference(SS_Preference.KEY_TWITTER_ID, userId);
+			SS_Preference.setPreference(SS_Preference.KEY_TWITTER_NAME, userName);
+			SS_Preference.setPreference(SS_Preference.KEY_TWITTER_IMAGEURL, imageUrl);
+			SS_Preference.setPreference(SS_Preference.KEY_TWITTER_TOCKEN, token);
+			SS_Preference.setPreference(SS_Preference.KEY_TWITTER_SECRET, secret);
+			
+			SS_Preference.setPreference(SS_Preference.KEY_AUTH, "1");
+			SS_Preference.setPreference(SS_Preference.KEY_AUTH_TT, "1");
+			
+			startActivity(new Intent(LoginActivity.this, HomeActivity.class));
 		}
 	}
 
