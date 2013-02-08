@@ -23,9 +23,10 @@ public class SS_DBHelper extends SQLiteOpenHelper {
 			" CREATE TABLE IF NOT EXISTS '" + TB_MY_POSTS + "' (" +
 	/* 0 */	" 'id' 				INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE," +
 	/* 1 */	" 'content'			TEXT," +
-	/* 2 */	" 'facebook'		TEXT," +
-	/* 3 */	" 'twiter' 			TEXT," +
-	/* 4 */	" 'google' 			TEXT" +
+	/* 2 */	" 'link'			TEXT," +
+	/* 3 */	" 'facebook'		TEXT," +
+	/* 4 */	" 'twiter' 			TEXT," +
+	/* 5 */	" 'google' 			TEXT" +
 			" )";
 	
 	public SS_DBHelper(Context context) {
@@ -65,6 +66,7 @@ public class SS_DBHelper extends SQLiteOpenHelper {
 		try {
 			ContentValues values = new ContentValues();
 			values.put("content", myPosts.content);
+			values.put("link", myPosts.link);
 			values.put("facebook", myPosts.facebook);
 			values.put("twiter", myPosts.twiter);
 			values.put("google", myPosts.google);
@@ -96,9 +98,10 @@ public class SS_DBHelper extends SQLiteOpenHelper {
 					do {
 						DT_MyPosts symbolItem 	= new DT_MyPosts();
 						symbolItem.content  	= cursor.getString(1);
-						symbolItem.facebook    	= cursor.getString(2);
-						symbolItem.twiter     	= cursor.getString(3);
-						symbolItem.google   	= cursor.getString(4);
+						symbolItem.link 		= cursor.getString(2);
+						symbolItem.facebook    	= cursor.getString(3);
+						symbolItem.twiter     	= cursor.getString(4);
+						symbolItem.google   	= cursor.getString(5);
 						symbolList.add(symbolItem);
 					} while (cursor.moveToNext());
 				}

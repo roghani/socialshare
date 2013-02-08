@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.facebook.android.Util;
+import com.socialshare.util.SS_Constants;
 import com.socialshare.util.SS_Preference;
 public class TwitterOauth extends Activity {
 
@@ -34,8 +35,6 @@ public class TwitterOauth extends Activity {
 	private AccessToken accessToken = null;
 	private WebView webview;
 	private ProgressDialog mDialog;
-	private static final String TWITTER_CONSUMER_KEY = "MEiVETank3JeXgrm9sKFw";
-	private static final String TWITTER_SECRET_KEY = "f7yhBFVcEe0YSoypuOI289003jejTlVDTs4lmc5o";
 	private boolean isDialogShowing = false;
 	
 	@Override
@@ -101,8 +100,8 @@ public class TwitterOauth extends Activity {
 	}
 
 	public void getRequesttoken() {
-		System.setProperty("twitter4j.oauth.consumerKey", TWITTER_CONSUMER_KEY);
-		System.setProperty("twitter4j.oauth.consumerSecret", TWITTER_SECRET_KEY);
+		System.setProperty("twitter4j.oauth.consumerKey", SS_Constants.TWITTER_CONSUMER_KEY);
+		System.setProperty("twitter4j.oauth.consumerSecret", SS_Constants.TWITTER_SECRET_KEY);
 
 		String url = "";
 		try {

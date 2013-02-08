@@ -1,6 +1,7 @@
 package com.socialshare;
 
 import com.socialshare.util.SS_Constants;
+import com.socialshare.util.SS_Preference;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,7 +19,11 @@ public class SplashScreen extends Activity {
 		public boolean handleMessage(Message msg) {
 			switch (msg.what) {
 			case WHT_SPLASH_TIMEOUT:
-				startActivity(new Intent(SplashScreen.this, LoginActivity.class));
+				if (SS_Preference.getPreference(SS_Preference.KEY_AUTH).equalsIgnoreCase("1")) {
+					startActivity(new Intent(SplashScreen.this, HomeActivity.class));
+				} else {
+					startActivity(new Intent(SplashScreen.this, LoginActivity.class));
+				}
 				break;
 			default:
 				break;
@@ -31,6 +36,8 @@ public class SplashScreen extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash_screen);
+		
+		SS_Preference.setContext(getApplicationContext());
 		
 		Message splashMessage = new Message();
 		splashMessage.what = WHT_SPLASH_TIMEOUT;

@@ -1,7 +1,5 @@
 package com.socialshare;
 
-import com.socialshare.util.SS_Constants;
-
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -13,6 +11,8 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.socialshare.util.SS_Constants;
 
 public class NewsDetailedActivity extends Activity {
 	private TextView mTitle;
@@ -53,7 +53,7 @@ public class NewsDetailedActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (mMenuViewAlert == null || !mMenuViewAlert.isShowing()) {
-					mMenuViewAlert = new SocialShareMenu(NewsDetailedActivity.this, true);
+					mMenuViewAlert = new SocialShareMenu(NewsDetailedActivity.this, true, mNewsLink);
 					mMenuViewAlert.show();
 				} else if (mMenuViewAlert != null && mMenuViewAlert.isShowing()) {
 					mMenuViewAlert.dismiss();
@@ -92,7 +92,7 @@ public class NewsDetailedActivity extends Activity {
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (mMenuViewAlert == null || !mMenuViewAlert.isShowing()) {
-			mMenuViewAlert = new SocialShareMenu(NewsDetailedActivity.this, true);
+			mMenuViewAlert = new SocialShareMenu(NewsDetailedActivity.this, true, mNewsLink);
 			mMenuViewAlert.show();
 		}
 		return super.onPrepareOptionsMenu(menu);
