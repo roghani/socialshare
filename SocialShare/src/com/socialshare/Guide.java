@@ -3,6 +3,10 @@ package com.socialshare;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
@@ -15,12 +19,21 @@ import com.socialshare.util.ViewPagerAdapter;
 import com.socialshare.util.WhatsNewPager;
 
 public class Guide extends Activity {
-
+	BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equalsIgnoreCase(SS_Constants.BROADCAST_SIGNOUT_ALL)) {
+				finish();
+			}
+		}
+	};
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-	    
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(SS_Constants.BROADCAST_SIGNOUT_ALL);
+		registerReceiver(mBroadcastReceiver, intentFilter);
 	    SS_Preference.setPreference(SS_Preference.KEY_GUIDE_DISPLAYED, "1");
 		
 	    setContentView(R.layout.whats_new);

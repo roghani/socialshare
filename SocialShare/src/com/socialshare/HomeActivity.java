@@ -6,7 +6,10 @@ import java.util.List;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -42,11 +45,26 @@ public class HomeActivity extends Activity {
 	private Button mOpRightButton;
 	private transient SocialShareMenu mMenuViewAlert;
 
+	
+	BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equalsIgnoreCase(SS_Constants.BROADCAST_SIGNOUT_ALL)) {
+				finish();
+			}
+		}
+	};
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    
+		
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(SS_Constants.BROADCAST_SIGNOUT_ALL);
+		registerReceiver(mBroadcastReceiver, intentFilter);
+		
 	    //TODO : move this line of code to Splash Screen activity after testing
 	    SS_Preference.setContext(getApplicationContext());
 	    

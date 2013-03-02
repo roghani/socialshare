@@ -13,22 +13,26 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.socialshare.customwidgets.LoadMoreListView;
-import com.socialshare.customwidgets.LoadMoreListView.OnLoadMoreListener;
 import com.socialshare.datatypes.DT_MyPosts;
 import com.socialshare.http.AsyncRequest;
 import com.socialshare.util.SS_Constants;
-import com.socialshare.util.SS_DBHelper;
 import com.socialshare.util.SS_Log;
+import com.socialshare.util.SS_Util;
 
-public class MyThoughts extends Activity {
+public class MyThoughtsDetail extends Activity {
+
+	private String mContent;
+	private String mContentLink;
+	private String mContentIdTT;
+	private String mContentIdFB;
+	
 	private LoadMoreListView mNewsList;
 	List<DT_MyPosts> mListNewsHeadlines = new ArrayList<DT_MyPosts>();
 	private ProgressBar mProgress;
@@ -44,17 +48,29 @@ public class MyThoughts extends Activity {
 			}
 		}
 	};
-	
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-	    setContentView(R.layout.my_thoughts);
-		
+	    setContentView(R.layout.my_thoughts_detail);
+	    
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction(SS_Constants.BROADCAST_SIGNOUT_ALL);
 		registerReceiver(mBroadcastReceiver, intentFilter);
 		
+	    mContent = getIntent().getStringExtra("EXT_CONTENT");
+	    mContentLink = getIntent().getStringExtra("EXT_LINK");
+	    mContentIdTT = getIntent().getStringExtra("EXT_TT");
+	    mContentIdFB = getIntent().getStringExtra("EXT_FB");
+	    
+	    if (mContent.trim().length() <= 0 || mContentLink.trim().length() <=0 || (mContentIdTT.trim().length() <= 0 && mContentIdFB.trim().length() <= 0)) {
+	    	Toast.makeText(this, "Not A Valid Post!", Toast.LENGTH_SHORT).show();
+	    }
+	    
+	    ((TextView) findViewById(R.id.txtTitle)).setText(mContent);
+	    ((TextView) findViewById(R.id.txtPubDate)).setText(mContentLink);
+	    
 	    ((TextView) findViewById(R.id.txtTitleText)).setText("My Thoughts");
 	    
 		mProgress = (ProgressBar) findViewById(R.id.prgTitleProgress);
@@ -64,24 +80,11 @@ public class MyThoughts extends Activity {
 	    
 	    mNewsList.setAdapter(mListAdapter);
 	    
-	    mNewsList.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				Intent detailedActivity = new Intent(MyThoughts.this, MyThoughtsDetail.class);
-				DT_MyPosts post = mListNewsHeadlines.get(position);
-				detailedActivity.putExtra("EXT_CONTENT", post.content);
-				detailedActivity.putExtra("EXT_LINK", post.link);
-				detailedActivity.putExtra("EXT_TT", post.twiter);
-				detailedActivity.putExtra("EXT_FB", post.facebook);
-				startActivity(detailedActivity);
-			}
-		});
-	    
 		mOpLeftButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (mMenuViewAlert == null || !mMenuViewAlert.isShowing()) {
-					mMenuViewAlert = new SocialShareMenu(MyThoughts.this, false);
+					mMenuViewAlert = new SocialShareMenu(MyThoughtsDetail.this, false);
 					mMenuViewAlert.show();
 				} else if (mMenuViewAlert != null && mMenuViewAlert.isShowing()) {
 					mMenuViewAlert.dismiss();
@@ -96,19 +99,14 @@ public class MyThoughts extends Activity {
 			}
 		});
 	    
-		mNewsList.setOnLoadMoreListener(new OnLoadMoreListener() {
-			@Override
-			public void onLoadMore() {
-//				mHTTP_FetchNews.execute();
-			}
-		});
-		mHTTP_FetchNews.execute();
+	    mHTTP_FetchNews.execute();
 	}
+
 	
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (mMenuViewAlert == null || !mMenuViewAlert.isShowing()) {
-			mMenuViewAlert = new SocialShareMenu(MyThoughts.this, false);
+			mMenuViewAlert = new SocialShareMenu(MyThoughtsDetail.this, false);
 			mMenuViewAlert.show();
 		}
 		return super.onPrepareOptionsMenu(menu);
@@ -121,12 +119,12 @@ public class MyThoughts extends Activity {
 		SS_Constants.isShowingMyThoughts = true;
 	}
 	
-    BaseAdapter mListAdapter = new BaseAdapter() {
-    	class ItemHolder {
-			TextView mTitle;
-			TextView mPubDate;
-		}
-    	@Override
+	BaseAdapter mListAdapter = new BaseAdapter() {
+		class ItemHolder {
+				TextView mTitle;
+				TextView mPubDate;
+			}
+		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			ItemHolder holder;
 			if (convertView == null) {
@@ -173,7 +171,7 @@ public class MyThoughts extends Activity {
 		@Override
 		public ArrayList<DT_MyPosts> doRequest() throws Exception {
 			showProgressBar();
-			return new SS_DBHelper(getApplicationContext()).selectMyPosts();
+			return SS_Util.getReThoughts(mContentIdTT, mContentIdFB);
 		}
 		
 		@Override

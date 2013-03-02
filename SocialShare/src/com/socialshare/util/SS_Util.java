@@ -5,11 +5,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -20,7 +23,10 @@ import twitter4j.conf.ConfigurationBuilder;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
 
+import com.facebook.android.Facebook;
 import com.socialshare.datatypes.DT_MyPosts;
 
 /**
@@ -110,30 +116,90 @@ public class SS_Util {
 		}
 	}
 	
-	public static void updateTwitterStatus(final String thought, final String link) {
-		Thread t = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					Status status = getTwitterInstance().updateStatus(thought + " " + link);
-					DT_MyPosts myPosts = new DT_MyPosts();
-					myPosts.content = thought;
-					myPosts.link = link;
-					myPosts.twiter = String.valueOf(status.getId());
-					new SS_DBHelper(SS_Constants.CurrentActiveContext).addPost(myPosts);
-				} catch (TwitterException e) {
-					e.printStackTrace();
+	public static void updateSocialStatus(final String thought, final String link, final boolean isTT, final boolean isFB, final boolean isGP) {
+		DT_MyPosts myPosts = new DT_MyPosts();
+		myPosts.content = thought;
+		myPosts.link = link;
+		final long rawID = new SS_DBHelper(SS_Constants.CurrentActiveContext).addPost(myPosts);
+		if (rawID > -1) {
+			Thread t = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						/*if (isTT)*/ updateTwitterStatus(thought, link, rawID);
+						/*if (isFB)*/ updateFacebookStatus(thought, link, rawID);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
-			}
-		});
-		t.start();
+			});
+			t.start();
+		}
 	}
 	
-	public static void updateFacebookStatus(String thought, String link) {
-			// TODO FB Update
+	public static void updateTwitterStatus(String thought, String link, long rawID) throws TwitterException {
+		Status status = getTwitterInstance().updateStatus(thought + " " + link);
+		String twitterID = String.valueOf(status.getId());
+		new SS_DBHelper(SS_Constants.CurrentActiveContext).updateSocialMediaStatus(rawID, "twiter", twitterID);
+	}
+	
+	public static void updateFacebookStatus(String thought, String link, long rawID) throws Exception {
+		//TODO This function is the only area to fix. If facebook posting is not working,
+		// fix this function. No other changes needed.
+		
+		Facebook mFacebook;
+		mFacebook = new Facebook(SS_Constants.FB_APP_ID);
+		mFacebook.setAccessToken(SS_Preference.getPreference(SS_Preference.KEY_FB_TOCKEN));
+		Bundle params = new Bundle();
+		params.putString("message", thought);
+		params.putString("link", link);
+		
+		String response = mFacebook.request("me/feed", params, "POST");
+		
+		// Check the logcat out put to identify what the response be.
+		SS_Log.i("FB Response", " " + response);
 	}
 	
 	public static void updateGoogleStatus(String thought, String link) {
 			// TODO G+ Update
+	}
+	
+	public static void checkSocialAuthStatus() {
+		if (SS_Preference.getPreference(SS_Preference.KEY_AUTH_TT).equalsIgnoreCase("1") ||
+				SS_Preference.getPreference(SS_Preference.KEY_AUTH_FB).equalsIgnoreCase("1") ||
+				SS_Preference.getPreference(SS_Preference.KEY_AUTH_GP).equalsIgnoreCase("1")) {
+			SS_Preference.setPreference(SS_Preference.KEY_AUTH, "1");
+		} else {
+			// TODO Exit All Activities
+			SS_Preference.setPreference(SS_Preference.KEY_AUTH, "0");
+			Intent broadIntent = new Intent();
+			broadIntent.setAction(SS_Constants.BROADCAST_SIGNOUT_ALL);
+			SS_Constants.CurrentActiveContext.sendBroadcast(broadIntent);
+		}
+	}
+	
+	public static ArrayList<DT_MyPosts> getReThoughts(String tweetID, String fbID) throws Exception {
+		ArrayList<DT_MyPosts> rethoughtsList = new ArrayList<DT_MyPosts>();
+		rethoughtsList.addAll(getReTweets(Long.parseLong(tweetID)));
+		rethoughtsList.addAll(getReFBComments(Long.parseLong(fbID)));
+		return rethoughtsList;
+	}
+
+	private static ArrayList<DT_MyPosts> getReFBComments(long parseLong) throws Exception {
+		return new ArrayList<DT_MyPosts>();
+	}
+
+	private static ArrayList<DT_MyPosts> getReTweets(long tweetID) throws Exception {
+		ArrayList<DT_MyPosts> retweetsList = new ArrayList<DT_MyPosts>();
+		ResponseList<Status> twitterResultList = getTwitterInstance().getRetweets(tweetID);
+		if (twitterResultList.size() > 0) {
+			for (Status status : twitterResultList) {
+				DT_MyPosts post = new DT_MyPosts();
+				post.content = status.getText();
+				post.link = status.getUser().getName();
+				retweetsList.add(post);
+			}
+		}
+		return retweetsList;
 	}
 }

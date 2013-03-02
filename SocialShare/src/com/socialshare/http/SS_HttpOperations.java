@@ -73,7 +73,7 @@ public class SS_HttpOperations {
 		String response = SS_Util.read(prepareConnection(parameters));
 		return SS_Util.parseJson(response);
 	}
-
+	
 	//TODO: Sample Request Method
 	public JSONObject getJSONFromURL(String keyword) throws Exception {
 		API_PATH = SS_Constants.API_BASE;

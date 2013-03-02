@@ -1,5 +1,7 @@
 package com.socialshare;
 
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +10,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.facebook.android.DialogError;
+import com.facebook.android.Facebook;
+import com.facebook.android.Facebook.DialogListener;
+import com.facebook.android.FacebookError;
+import com.facebook.android.Util;
 import com.socialshare.util.SS_Constants;
 import com.socialshare.util.SS_Preference;
 
@@ -17,6 +24,11 @@ public class LoginActivity extends Activity {
 	private Button mLoginGP;
 	private Button mLoginTT;
 	private final static int TW_AUTHORIZE_ACTIVITY_RESULT_CODE = 11423;
+	private Facebook mFacebook = new Facebook(SS_Constants.FB_APP_ID);
+	private String 					mFacebookUserId;
+	private String 					mFacebookSnsTocken;
+	private String 					mFacebookUserName;
+	private String 					mFacebookUserImage;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -40,7 +52,69 @@ public class LoginActivity extends Activity {
 				}
 			}
 		});
+	    
+	    
+	    
+	    mLoginFB.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Util.clearCookies(getBaseContext());
+				mFacebook.authorize(LoginActivity.this, SS_Constants.FB_PERMISSIONS, new MyDialogListener());
+			}
+		});
 	}
+
+	
+	private class MyDialogListener implements DialogListener {
+		public void onComplete(Bundle values) {
+			new Thread() {
+				@Override
+				public void run() {
+					try {
+						String response = mFacebook.request("/me", new Bundle(), "GET");
+						JSONObject obj = Util.parseJson(response);
+						mFacebookUserId 	= obj.optString("id");
+						mFacebookUserName 	= obj.optString("name");
+						mFacebookUserImage	= "http://graph.facebook.com/" + mFacebookUserId + "/picture";
+						mFacebookSnsTocken 	= mFacebook.getAccessToken();
+						
+						SS_Preference.setPreference(SS_Preference.KEY_FB_ID, mFacebookUserId);
+						SS_Preference.setPreference(SS_Preference.KEY_FB_NAME, mFacebookUserName);
+						SS_Preference.setPreference(SS_Preference.KEY_FB_IMAGE, mFacebookUserImage);
+						SS_Preference.setPreference(SS_Preference.KEY_FB_TOCKEN, mFacebookSnsTocken);
+						
+						SS_Preference.setPreference(SS_Preference.KEY_AUTH, "1");
+						SS_Preference.setPreference(SS_Preference.KEY_AUTH_FB, "1");
+						
+						startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+						finish();
+					} catch (Exception e) {
+						e.printStackTrace();
+						runOnUiThread(new Runnable() {
+							public void run() {
+								Toast.makeText(LoginActivity.this, "Login failed!", Toast.LENGTH_SHORT).show();
+							}
+						});
+					}
+				};
+			}.start();
+		}
+
+		public void onFacebookError(FacebookError error) {
+			error.printStackTrace();
+			Toast.makeText(LoginActivity.this, "Login failed!", Toast.LENGTH_SHORT).show();
+		}
+
+		public void onError(DialogError error) {
+			error.printStackTrace();
+			Toast.makeText(LoginActivity.this, "Login failed!", Toast.LENGTH_SHORT).show();
+		}
+
+		public void onCancel() {
+			finish();
+		}
+	}
+
 	
 	@Override
 	protected void onResume() {
@@ -73,7 +147,9 @@ public class LoginActivity extends Activity {
 			SS_Preference.setPreference(SS_Preference.KEY_AUTH_TT, "1");
 			
 			startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+			finish();
 		}
 	}
+	
 
 }

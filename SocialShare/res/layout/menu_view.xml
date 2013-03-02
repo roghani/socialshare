@@ -70,7 +70,7 @@
                             android:layout_height="wrap_content" >
 
                             <ToggleButton
-                                android:id="@+id/tglGoogle"
+                                android:id="@+id/tglGP"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -79,7 +79,7 @@
                                 android:textOn="G+" />
 
                             <ToggleButton
-                                android:id="@+id/tglFacebook"
+                                android:id="@+id/tglFB"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -88,7 +88,7 @@
                                 android:textOn="FB" />
 
                             <ToggleButton
-                                android:id="@+id/tglTwitter"
+                                android:id="@+id/tglTT"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
