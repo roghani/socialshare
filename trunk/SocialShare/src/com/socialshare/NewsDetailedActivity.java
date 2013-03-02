@@ -1,6 +1,10 @@
 package com.socialshare;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
@@ -26,10 +30,25 @@ public class NewsDetailedActivity extends Activity {
 	private Button mOpRightButton;
 	private transient SocialShareMenu mMenuViewAlert;
 
+	
+	BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equalsIgnoreCase(SS_Constants.BROADCAST_SIGNOUT_ALL)) {
+				finish();
+			}
+		}
+	};
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 
+		
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(SS_Constants.BROADCAST_SIGNOUT_ALL);
+		registerReceiver(mBroadcastReceiver, intentFilter);
+		
 	    mNewsTitle = getIntent().getStringExtra("E_TITLE");
 	    mNewsPubDate = getIntent().getStringExtra("E_PUBDATE");
 	    mNewsLink = getIntent().getStringExtra("E_LINK");

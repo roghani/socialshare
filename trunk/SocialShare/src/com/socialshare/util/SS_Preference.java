@@ -30,6 +30,15 @@ public class SS_Preference {
 	public static final String 			KEY_TWITTER_TOCKEN	= "keyTwitterTocken";
 	public static final String 			KEY_TWITTER_SECRET	= "keyTwitterSecret";
 	
+	public static final String 			KEY_FB_ID 			= "keyFacebookID";
+	public static final String 			KEY_FB_NAME 		= "keyFacebookName";
+	public static final String 			KEY_FB_IMAGE 		= "keyFacebookImage";
+	public static final String 			KEY_FB_TOCKEN 		= "keyFaceBookToken";
+	
+	public static final String 			KEY_DEF_SHARE_TT	= "keyDefaultShareTT";
+	public static final String 			KEY_DEF_SHARE_FB	= "keyDefaultShareFB";
+	public static final String 			KEY_DEF_SHARE_GP	= "keyDefaultShareGP";
+	
 	/** 
 	 * This method must be called before using any other functions of {@link SS_Preference} 
 	 * @param context : Pass the calling context or Base Context or Application Context

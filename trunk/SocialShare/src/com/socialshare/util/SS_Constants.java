@@ -20,8 +20,9 @@ public class SS_Constants {
 	public static final String TWITTER_CONSUMER_KEY 	= "MEiVETank3JeXgrm9sKFw";
 	public static final String TWITTER_SECRET_KEY 		= "f7yhBFVcEe0YSoypuOI289003jejTlVDTs4lmc5o";
 	
+	public static final String 	BROADCAST_SIGNOUT_ALL	= "com.socialshare.SIGNOUT_ALL";
 	
-	public static final String 	FB_APP_ID 				= "463929193672057";
+	public static final String 	FB_APP_ID 				= "291418964240842";
 	public static final String 	FB_GRAPH_BASE 			= "https://graph.facebook.com/";
 	public static final String[] 	FB_PERMISSIONS 		= new String[] 	{
 																				"offline_access", 

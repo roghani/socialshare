@@ -1,8 +1,10 @@
 package com.socialshare;
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.socialshare.util.SS_Constants;
+import com.socialshare.util.SS_Preference;
 import com.socialshare.util.SS_Util;
 
 public class SocialShareMenu extends Dialog implements android.view.View.OnClickListener {
@@ -28,20 +31,36 @@ public class SocialShareMenu extends Dialog implements android.view.View.OnClick
 	private String mLinkToShare;
 	private EditText mThought;
 	private TextView mSharingLink;
-	private ToggleButton mTwitter;
-	private ToggleButton mGoogle;
-	private ToggleButton mFacebook;
+	private ToggleButton tglTT;
+	private ToggleButton tglGP;
+	private ToggleButton tglFB;
 	private Button mShare;
 
+	
+	BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equalsIgnoreCase(SS_Constants.BROADCAST_SIGNOUT_ALL)) {
+				dismiss();
+			}
+		}
+	};
+	
 	public SocialShareMenu(Context context, boolean enableShare) {
 		super(context, R.style.PopUpTheme);
 		this.enableShare = enableShare;
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(SS_Constants.BROADCAST_SIGNOUT_ALL);
+		context.registerReceiver(mBroadcastReceiver, intentFilter);
 	}
 	
 	public SocialShareMenu(Context context, boolean enableShare, String link) {
 		super(context, R.style.PopUpTheme);
 		this.enableShare = enableShare;
 		mLinkToShare = link;
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(SS_Constants.BROADCAST_SIGNOUT_ALL);
+		context.registerReceiver(mBroadcastReceiver, intentFilter);
 	}
 	
 	@Override
@@ -54,12 +73,49 @@ public class SocialShareMenu extends Dialog implements android.view.View.OnClick
 			findViewById(R.id.viwShareThought).setVisibility(View.VISIBLE);
 			mThought = (EditText) findViewById(R.id.edtThought);
 			mSharingLink = (TextView) findViewById(R.id.txtSharingLink);
-			mTwitter = (ToggleButton) findViewById(R.id.tglTwitter);
-			mGoogle = (ToggleButton) findViewById(R.id.tglGoogle);
-			mFacebook  = (ToggleButton) findViewById(R.id.tglFacebook);
+			tglTT = (ToggleButton) findViewById(R.id.tglTT);
+			tglGP = (ToggleButton) findViewById(R.id.tglGP);
+			tglFB = (ToggleButton) findViewById(R.id.tglFB);
 			mShare = (Button) findViewById(R.id.btnShareThought);
 			mSharingLink.setText(mLinkToShare);
 			mShare.setOnClickListener(onShare);
+			
+			if (SS_Preference.getPreference(SS_Preference.KEY_AUTH_TT).equalsIgnoreCase("1")) {
+				tglTT.setEnabled(true);
+			} else {
+				tglTT.setEnabled(false);
+			}
+			
+			if (SS_Preference.getPreference(SS_Preference.KEY_AUTH_FB).equalsIgnoreCase("1")) {
+				tglFB.setEnabled(true);
+			} else {
+				tglFB.setEnabled(false);
+			}
+			
+			if (SS_Preference.getPreference(SS_Preference.KEY_AUTH_GP).equalsIgnoreCase("1")) {
+				tglGP.setEnabled(true);
+			} else {
+				tglGP.setEnabled(false);
+			}
+			
+			if (SS_Preference.getPreference(SS_Preference.KEY_DEF_SHARE_TT).equalsIgnoreCase("1")) {
+				tglTT.setChecked(true);
+			} else {
+				tglTT.setChecked(false);
+			}
+			
+			if (SS_Preference.getPreference(SS_Preference.KEY_DEF_SHARE_FB).equalsIgnoreCase("1")) {
+				tglFB.setChecked(true);
+			} else {
+				tglFB.setChecked(false);
+			}
+			
+			if (SS_Preference.getPreference(SS_Preference.KEY_DEF_SHARE_GP).equalsIgnoreCase("1")) {
+				tglGP.setChecked(true);
+			} else {
+				tglGP.setChecked(false);
+			}
+			
 		} else {
 			findViewById(R.id.viwShareThought).setVisibility(View.GONE);
 		}
@@ -144,17 +200,7 @@ public class SocialShareMenu extends Dialog implements android.view.View.OnClick
 	private View.OnClickListener onShare = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			if (mTwitter.isChecked()) {
-				SS_Util.updateTwitterStatus(mThought.getText().toString(), mSharingLink.getText().toString());
-			}
-			
-			if (mFacebook.isChecked()) {
-				SS_Util.updateFacebookStatus(mThought.getText().toString(), mSharingLink.getText().toString());
-			}
-			
-			if (mGoogle.isChecked()) {
-				SS_Util.updateGoogleStatus(mThought.getText().toString(), mSharingLink.getText().toString());
-			}
+			SS_Util.updateSocialStatus(mThought.getText().toString(), mSharingLink.getText().toString(), tglTT.isChecked(), tglFB.isChecked(), tglGP.isChecked());
 		}
 	};
 }
