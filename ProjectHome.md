@@ -1,0 +1,1 @@
+An android application which connect you to all social medias. Basically, I'm starting with the most familiar social networking sites: Facebook, Twitter and Google+.
